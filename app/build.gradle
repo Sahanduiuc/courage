@@ -2,16 +2,20 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+def configs = rootProject.ext
+
 android {
-    compileSdkVersion 28
+    compileSdkVersion       configs.compileApiLevel
+
     defaultConfig {
-        applicationId "io.github.farhad.courage"
-        minSdkVersion 15
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        applicationId       "io.github.farhad.courage"
+        minSdkVersion       configs.minApiLevel
+        targetSdkVersion    configs.targetApiLevel
+        versionCode         configs.major*100 + configs.minor*10 + configs.patch
+        versionName         "${configs.major}.${configs.minor}.${configs.patch}"
+        testInstrumentationRunner configs.androidJunitRunner
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -21,12 +25,17 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'androidx.core:core-ktx:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+
+    implementation          configs.kotlinStd
+    implementation          configs.appcompat
+    implementation          configs.androidKtx
+    implementation          configs.constraintlayout
+
+    implementation          configs.rxjava
+    implementation          configs.rxandroid
+    implementation          configs.rxkotlin
+
+    testImplementation          configs.junit
+    androidTestImplementation   configs.androidTestRunner
+    androidTestImplementation   configs.espresso
 }
