@@ -1,0 +1,10 @@
+apply plugin: 'java-library'
+
+def configs = rootProject.ext
+
+dependencies {
+    implementation          configs.kotlinStd
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
